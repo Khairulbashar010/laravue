@@ -15,10 +15,11 @@ class CreateBillsTable extends Migration
     {
         Schema::create('bills', function (Blueprint $table) {
             $table->id();
+            $table->integer('biller_id')->unsigned();
             $table->integer('customer_id')->unsigned();
             $table->date('bill_month');
             $table->string('amount');
-            $table->tinyInteger('status');
+            $table->tinyInteger('status')->default(1)->comment('1 = pending, 2 = paid');
             $table->timestamps();
         });
     }

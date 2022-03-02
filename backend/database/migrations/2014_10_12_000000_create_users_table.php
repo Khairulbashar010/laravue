@@ -18,7 +18,7 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            $table->string('role_id')->default(2)->comment('1 = user, 2 = customer');
+            $table->tinyInteger('role_id')->default(2)->comment('1 = user, 2 = customer');
             $table->string('parent_id')->nullable();
             $table->text('address')->nullable();
             $table->rememberToken();

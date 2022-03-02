@@ -16,6 +16,7 @@ class BillTableSeeder extends Seeder
     {
         Bill::updateOrCreate(
             [
+                "biller_id" => 1,
                 "customer_id" => rand(11,20),
                 "bill_month" => date('Y-m-d')
             ],
