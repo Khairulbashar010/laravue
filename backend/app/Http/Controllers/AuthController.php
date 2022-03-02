@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
@@ -27,13 +29,32 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
-        $credentials = $request->only('email', 'password');
-
-        if ($token = $this->guard()->attempt($credentials)) {
+        $validator = Validator::make($request->all(), [
+            'email'     => 'required',
+            'password'  => 'required',
+        ]);
+        if($validator->fails()) {
+            return response()->json([
+                'message' => $validator->errors()->first(),
+                'success'=> false
+            ]);
+        }
+        $user = User::where('email', $request->email)->first();
+        if(!$user){
+            return [
+                'message' => 'User doesn\'t exist',
+                'success' => false
+            ];
+        }
+        $token_validity = 24 * 60;
+        auth()->factory()->setTTL($token_validity);
+        if ($token = auth()->attempt($validator->validated())) {
             return $this->respondWithToken($token);
         }
-
-        return response()->json(['error' => 'Unauthorized'], 401);
+        return response()->json([
+            'message' => 'Wrong credentials provided',
+            'success' => false
+        ]);
     }
 
     /**
