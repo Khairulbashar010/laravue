@@ -2,19 +2,18 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CustomerController;
 
 
-Route::group([
+Route::post('login', [AuthController::class, 'login']);
 
-    'middleware' => 'api',
-    'namespace' => 'App\Http\Controllers',
-    'prefix' => 'auth'
-
-], function ($router) {
-
-    Route::post('login', 'AuthController@login');
-    Route::post('logout', 'AuthController@logout');
-    Route::post('refresh', 'AuthController@refresh');
-    Route::post('me', 'AuthController@me');
-
+Route::group(['middleware' => ['jwt.verify']], function($router) {
+    Route::post('me', [AuthController::class, 'me']);
+    Route::get('logout', [AuthController::class, 'logout']);
+    Route::get('get-customers', [CustomerController::class, 'getCustomers']);
+    Route::get('edit-customer/{customerId}', [CustomerController::class, 'editCustomer']);
+    Route::post('create-customer', [CustomerController::class, 'createCustomer']);
+    Route::put('update-customer', [CustomerController::class, 'updateCustomer']);
+    Route::delete('delete-customer/{customerId}', [CustomerController::class, 'deleteCustomer']);
 });

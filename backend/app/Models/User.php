@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Bill;
 use App\Models\User;
 use App\Models\Role;
 use Tymon\JWTAuth\Contracts\JWTSubject;
@@ -22,6 +23,7 @@ class User extends Authenticatable implements JWTSubject
         'name',
         'email',
         'password',
+        'address',
     ];
 
     /**
@@ -59,7 +61,7 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongsTo(Roles::class, 'role_id');
     }
 
-    public function clients()
+    public function customers()
     {
         return $this->hasMany(User::class, 'parent_id');
     }
@@ -67,5 +69,10 @@ class User extends Authenticatable implements JWTSubject
     public function parent()
     {
         return $this->belongsTo(User::class, 'parent_id');
+    }
+
+    public function bills()
+    {
+        return $this->hasMany(Bill::class, 'customer_id');
     }
 }

@@ -22,6 +22,7 @@ class UserFactory extends Factory
             'remember_token' => Str::random(10),
             'role_id' => 1,
             'parent_id' => null,
+            'address' => "271/6, Malibagh, (2nd floor), Dhaka, Dhaka, 1217",
         ];
     }
 
