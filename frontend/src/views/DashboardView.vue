@@ -1,6 +1,11 @@
 <template>
 	<div class="grid-container">
-		<div class="sidebar"></div>
+		<div class="sidebar">
+			<p></p>
+			<ul>
+				<li>Loout</li>
+			</ul>
+		</div>
 		<div class="main-content">
 			<div class="topbar">
 				<button @click="collapse()">M</button>
@@ -11,8 +16,9 @@
 
 <script>
 export default {
-	name: "HomeView",
+	name: "DashboardView",
 	components: {},
+	
 	methods: {
 		collapse: function () {
 			const sidebar = this.$el.querySelector(".sidebar");
@@ -23,6 +29,7 @@ export default {
 			mainContent.classList.toggle("main-content_large");
 		},
 	},
+	onBeforeMount: () => {},
 };
 </script>
 
@@ -42,7 +49,6 @@ export default {
 	height: 100vh;
 	background-color: rgba(255, 255, 255, 0.13);
 	backdrop-filter: blur(10px);
-	border: 2px solid rgba(255, 255, 255, 0.1);
 	box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
 	transition: 1s ease;
 	position: relative;
@@ -51,9 +57,8 @@ export default {
 .topbar {
 	width: 80vw;
 	height: 4rem;
-	background-color: rgba(255, 255, 255, 0.13);
+	background-color: rgba(255, 255, 255, 0.5);
 	backdrop-filter: blur(10px);
-	border: 2px solid rgba(255, 255, 255, 0.1);
 	box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
 	transition: 1s ease;
 	position: relative;
@@ -62,7 +67,8 @@ export default {
 .main-content {
 	width: 80vw;
 	height: 100vh;
-	background-color: #ccc;
+	background-color: rgba(255, 255, 255, 0.8);
+	backdrop-filter: blur(10px);
 	transition: 1s ease;
 }
 

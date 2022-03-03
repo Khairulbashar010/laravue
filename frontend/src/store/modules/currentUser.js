@@ -1,19 +1,36 @@
-import axios from "axios"
-axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
+import axios from "axios";
+import { reject } from "lodash";
+const headers = {
+
+};
+// getters
 const state = {}
+
+// getters
 const getters = {}
+
+// actions
 const actions = {
-    async loginUser({}, user) {
-        await axios.post('http://localhost:8000/api/login' {
-            email:user.email,
-            password:user.password,
-        }).then(()=> {
-            console.log(response.data)
-        }).catch(($e) => {
-            console.log($e)
+    loginUser({}, user) {
+        axios.post('login',{
+                email:user.email,
+                password:user.password,
+        },headers).then(response => {
+            if(response.data.access_token){
+                localStorage.setItem(
+                    'user_token',
+                    response.data.access_token
+                )
+            } else {
+                reject(response);
+            }
+        }).catch(error => {
+            reject(error);
         })
     }
 }
+
+// mutations
 const mutations = {}
 
 export default {

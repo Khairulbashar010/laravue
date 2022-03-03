@@ -1,6 +1,6 @@
 <template>
 	<div class="background">
-		<div>
+		<div class="form">
 			<h3>Login</h3>
 			<input
 				type="text"
@@ -14,7 +14,7 @@
 				id="password"
 				v-model="user.password"
 			/>
-			<button type="submit" @click="login()">Log In</button>
+			<button @click="login()">Log In</button>
 		</div>
 	</div>
 </template>
@@ -29,8 +29,15 @@ export default {
 		},
 	}),
 	methods: {
-		login: () => {
-			this.$store.dispatch("currentUser/loginUser", this.user);
+		login: function () {
+			this.$store
+				.dispatch("currentUser/loginUser", this.user)
+				.then(() => {
+					console.log(localStorage.getItem('use_token'));
+				})
+				.catch((error) => {
+					console.log(error);
+				});
 		},
 	},
 };
@@ -45,8 +52,8 @@ export default {
 	left: 50%;
 	top: 50%;
 }
-form {
-	height: 60vh;
+.form {
+	height: fit-content;
 	width: 400px;
 	background-color: rgba(255, 255, 255, 0.13);
 	position: absolute;
@@ -59,14 +66,14 @@ form {
 	box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
 	padding: 50px 35px;
 }
-form * {
+.form * {
 	font-family: "Poppins", sans-serif;
 	color: #ffffff;
 	letter-spacing: 0.5px;
 	outline: none;
 	border: none;
 }
-form h3 {
+.form h3 {
 	font-size: 32px;
 	font-weight: 500;
 	line-height: 42px;
@@ -93,7 +100,7 @@ input {
 ::placeholder {
 	color: #ffffff;
 }
-button {
+.form button {
 	margin-top: 50px;
 	width: 100%;
 	background-color: #ffffff;
