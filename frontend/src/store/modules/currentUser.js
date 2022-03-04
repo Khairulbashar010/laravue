@@ -1,4 +1,5 @@
 import axios from "axios";
+import router from '../../router'
 // getters
 const state = {
     user: null,
@@ -42,6 +43,7 @@ const actions = {
             )
             commit('SET_TOKEN', response.data.token);
             commit('SET_USER', response.data.user);
+            router.push('/dashboard');
         } else {
             commit('SET_TOKEN', null);
             commit('SET_USER', null);

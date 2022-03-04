@@ -14,7 +14,7 @@
 				id="password"
 				v-model="user.password"
 			/>
-			<button @click="login()">Log In</button>
+			<button type="submit">Log In</button>
 		</form>
 	</div>
 </template>
