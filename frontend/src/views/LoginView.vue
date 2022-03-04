@@ -1,6 +1,6 @@
 <template>
 	<div class="background">
-		<div class="form">
+		<form @submit.prevent="login()">
 			<h3>Login</h3>
 			<input
 				type="text"
@@ -15,7 +15,7 @@
 				v-model="user.password"
 			/>
 			<button @click="login()">Log In</button>
-		</div>
+		</form>
 	</div>
 </template>
 
@@ -30,14 +30,7 @@ export default {
 	}),
 	methods: {
 		login: function () {
-			this.$store
-				.dispatch("currentUser/loginUser", this.user)
-				.then(() => {
-					console.log(localStorage.getItem('use_token'));
-				})
-				.catch((error) => {
-					console.log(error);
-				});
+			this.$store.dispatch("currentUser/loginUser", this.user);
 		},
 	},
 };
@@ -52,7 +45,7 @@ export default {
 	left: 50%;
 	top: 50%;
 }
-.form {
+form {
 	height: fit-content;
 	width: 400px;
 	background-color: rgba(255, 255, 255, 0.13);
@@ -66,14 +59,14 @@ export default {
 	box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
 	padding: 50px 35px;
 }
-.form * {
+form * {
 	font-family: "Poppins", sans-serif;
 	color: #ffffff;
 	letter-spacing: 0.5px;
 	outline: none;
 	border: none;
 }
-.form h3 {
+form h3 {
 	font-size: 32px;
 	font-weight: 500;
 	line-height: 42px;
@@ -100,7 +93,7 @@ input {
 ::placeholder {
 	color: #ffffff;
 }
-.form button {
+button {
 	margin-top: 50px;
 	width: 100%;
 	background-color: #ffffff;

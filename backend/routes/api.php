@@ -10,7 +10,7 @@ use App\Http\Controllers\CustomerController;
 Route::post('login', [AuthController::class, 'login']);
 
 Route::group(['middleware' => ['jwt.verify']], function() {
-    Route::post('me', [AuthController::class, 'me']);
+    Route::get('me', [AuthController::class, 'me']);
     Route::get('logout', [AuthController::class, 'logout']);
     Route::get('get-customers', [UserController::class, 'getCustomers']);
     Route::get('edit-customer/{customerId}', [UserController::class, 'editCustomer']);

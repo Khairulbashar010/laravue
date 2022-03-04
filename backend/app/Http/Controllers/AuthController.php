@@ -48,13 +48,17 @@ class AuthController extends Controller
 
     public function me()
     {
-        $this->validate($request, [
-            'token' => 'required'
+        $user = JWTAuth::authenticate(request()->bearerToken());
+
+        return response()->json([
+            'success' => true,
+            'message' => 'User authenticated',
+            'token' => request()->bearerToken(),
+            'user' => [
+                'name' => $user->name,
+                'email' => $user->email,
+            ],
         ]);
-
-        $user = JWTAuth::authenticate($request->token);
-
-        return response()->json(['user' => $user]);
     }
 
     public function logout(Request $request)

@@ -5,7 +5,6 @@ import router from './router';
 import store from './store';
 
 axios.defaults.baseURL = 'http://localhost:8000/api/';
-axios.defaults.headers.common["Authorization"] = localStorage.getItem('use_token') ? `Bearer ${localStorage.getItem('use_token')}` : '';
 axios.defaults.headers.common['Content-Type'] = 'application/json';
 
 createApp(App).use(store).use(router).mount('#app')

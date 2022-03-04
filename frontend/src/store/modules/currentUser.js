@@ -1,37 +1,57 @@
 import axios from "axios";
-import { reject } from "lodash";
-const headers = {
-
-};
 // getters
-const state = {}
-
-// getters
-const getters = {}
-
-// actions
-const actions = {
-    loginUser({}, user) {
-        axios.post('login',{
-                email:user.email,
-                password:user.password,
-        },headers).then(response => {
-            if(response.data.access_token){
-                localStorage.setItem(
-                    'user_token',
-                    response.data.access_token
-                )
-            } else {
-                reject(response);
-            }
-        }).catch(error => {
-            reject(error);
-        })
+const state = {
+    user: null,
+    token: null
+}
+// mutations
+const mutations = {
+    SET_TOKEN(state, token){
+        state.token = token;
+    },
+    SET_USER(state, user) {
+        state.user = user;
     }
 }
+// actions
+const actions = {
+    async loginUser({dispatch, commit}, user) {
+        const response = await axios.post('login',user).catch(e => {
+            console.log(e);
+        });
+        if(response.data.success){
+            dispatch('attempt', response.data.access_token)
+        } else {
+            commit('SET_TOKEN', null);
+            commit('SET_USER', null);
+        }
+    },
 
-// mutations
-const mutations = {}
+    async attempt({commit}, token) {
+         const response = await axios.get('me',{
+            headers: {
+                "Authorization":`Bearer ${token}`
+            }
+        }).catch(e => {
+            console.log(e);
+        })
+        if(response.data.success) {
+            localStorage.setItem(
+                'token',
+                response.data.token
+            )
+            commit('SET_TOKEN', response.data.token);
+            commit('SET_USER', response.data.user);
+        } else {
+            commit('SET_TOKEN', null);
+            commit('SET_USER', null);
+        }
+
+    }
+}
+// getters
+const getters = null
+
 
 export default {
     namespaced:true,
